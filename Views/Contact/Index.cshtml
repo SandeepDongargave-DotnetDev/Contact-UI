@@ -1,0 +1,236 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+@*<script src="~/Scripts/jquery-1.10.2.min.js"></script
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.js"></script>*@
+
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ContactUI</title>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <style type='text/css'>
+        /* Style to hide Dates / Months */
+        .ui-datepicker-calendar, .ui-datepicker-month {
+            display: none;
+        }
+
+
+        .textalign {
+            text-align: Center;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-6">
+
+            <h3>Contact App</h3>
+        </div>
+
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-md-2">
+            <label>First Name<span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" name="FirstName" id="FirstName" class="form-control">
+            <small class="text-danger" id="txtFNameValidation"></small>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top:15px">
+        <div class="col-md-2">
+            <label>Last Name<span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" name="LastName" id="LastName" class="form-control"><br />
+            <small class="text-danger" id="txtLNameValidation"></small>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top:15px">
+        <div class="col-md-2">
+            <label>Email<span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" name="Email" id="Email" class="form-control" autocomplete="off">
+            <small class="text-danger" id="txtEmailValidation"></small>
+            <span id="erroremail" style="display:none;color:red;">Wrong email</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            <label>Phone<span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" name="Phone" id="Phone" class="form-control" pattern="\d{10}" maxlength="10" autocomplete="off">
+            <small class="text-danger" id="txtPhoneValidation"></small>
+            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label>Status<span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-4">
+            <select id="Status" class="form-control">
+                <option value="1">Select</option>
+                <option value="2">Active</option>
+                <option value="3">InActive</option>
+            </select>
+            <small class="text-danger" id="txtStatusValidation"></small>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-4">
+            <button tabindex="1" type="button" id="btnSave" class="btn btn-success">SAVE</button>
+
+        </div>
+    </div>
+
+    @*<div class="col-md-3 col-xs-12  pull-right"><button tabindex="1" style="margin-top:15px" type="button" id="btnAddLeaveHeadMapping" class="btn btn-success btn-block">Create</button></div>*@
+    <br />
+    <br />
+    <br />
+    <br />
+    <div id="ResultsPanel" class="panel panel-default">
+        <div class="panel-body">
+            <table id="ResultsTable" class="table table-responsive table-striped">
+                <thead>
+                </thead>
+                <tbody id="tblresultbody"></tbody>
+            </table>
+            <label id="lblNorecordsSearch" style="font-size:small " class="no-result"></label>
+        </div>
+
+    </div>
+
+
+    <div id="myModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Contact Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <input type="hidden" id="LhId" value="" />
+                        <div class="col-md-2">
+                            <label>First Name<span style="color: red;">*</span></label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="FirstNameM" id="FirstNameM" class="form-control">
+                            <small class="text-danger" id="txtFNameValidation"></small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>Last Name<span style="color: red;">*</span></label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="LastNameM" id="LastNameM" class="form-control"><br />
+                            <small class="text-danger" id="txtLNameValidation"></small>
+                        </div>
+                        </div>
+                        <div class="row" >
+                            <div class="col-md-2">
+                                <label>Email<span style="color: red;">*</span></label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" name="EmailM" id="EmailM" class="form-control" autocomplete="off">
+                                <small class="text-danger" id="txtEmailValidation"></small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Phone<span style="color: red;">*</span></label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" name="PhoneM" id="PhoneM" class="form-control" autocomplete="off">
+                                <small class="text-danger" id="txtPhoneValidation"></small>
+                            </div>
+                        </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label>Status<span style="color:red;">*</span></label>
+                        </div>
+                        <div class="col-sm-4">
+                            <select id="StatusM" class="form-control">
+
+                                <option value="1">Active</option>
+                                <option value="0">InActive</option>
+                            </select>
+                            <small class="text-danger" id="ddStatusValidation"></small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnEdit" class="btn btn-warning" style="display:none">Edit</button>
+                        <button type="button" id="btnUpdate" class="btn btn-success" style="display:none">Update</button>
+                        @*<button type="button" id="btnSave" class="btn btn-success">Save</button>*@
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+        </div>
+
+
+            
+            
+            
+            </body>
+</html>
+
+
+
+@section Scripts{
+
+    @*<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>*@
+    @*<script src="~/Scripts/jquery-3.4.1.min.js"></script>*@
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+    @*<script>
+
+
+            $(function() {
+
+                    $(".datepicker").datepicker();
+
+
+
+                }
+            );
+
+        </script>*@
+
+
+    <script src="~/js/Contact.js"></script>
+}
+
